@@ -87,7 +87,6 @@ class Ball {
                 audios[0].play();
             }
 
-//&& (shooter.x + shooter.width >= this.x && this.x >= shooter.x)
             //first if is to determine if the ball has touched the ground and the second if is to determine if the ball is in the range of the shooter on x-axis
             if ((this.y + this.size >= screenHeight - 40) && (shooter.x + shooter.width >= this.x && this.x >= shooter.x)) {
                 this.y = screenHeight - (40 + this.size);
@@ -269,7 +268,6 @@ document.addEventListener('keyup',() => {
 })
 
 window.addEventListener('load',() => {
-    alert('Page Loaded You Can Now Start By Reading and Following  Instructions');
     document.getElementById('startBtn').addEventListener('click',() => {
         animating();
         shooterPosition();    
