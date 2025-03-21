@@ -92,18 +92,18 @@ class Ball {
             if ((this.y + this.size >= screenHeight - 40) && (shooter.x + shooter.width >= this.x && this.x >= shooter.x)) {
                 this.y = screenHeight - (40 + this.size);
                 this.dy *= -1;
-                const randomXPosition = [-1,-2,-3,0,1,2,3];
+                const randomXPosition = [-1,-2,-3,-4,0,1,2,3,4];
                 //this.dx = randomXPosition[Math.floor(Math.random() * randomXPosition.length)];
                 const xAxisDifference = this.x - shooter.x;
                 console.log(xAxisDifference);
                 if (xAxisDifference <= 43) {
-                    this.dx  = randomXPosition[Math.floor(Math.random() * 3)];
+                    this.dx  = randomXPosition[Math.floor(Math.random() * 4)];
                 }
                 else if (xAxisDifference < 50) {
-                    this.dx = randomXPosition[3];
+                    this.dx = randomXPosition[4];
                 }
                 else {
-                    this.dx  = randomXPosition[Math.floor((Math.random() * 3) + 4)];
+                    this.dx  = randomXPosition[Math.floor((Math.random() * 4) + 5)];
                 }
                 audios[0].play();
             }
