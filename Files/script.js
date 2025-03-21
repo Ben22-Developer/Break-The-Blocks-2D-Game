@@ -268,11 +268,14 @@ document.addEventListener('keyup',() => {
     shooter.speed = 0;
 })
 
-document.getElementById('startBtn').addEventListener('click',() => {
-    animating();
-    shooterPosition();    
-    document.getElementById('welcoming').style.display = 'none';
-    document.querySelector('canvas').style.display = 'block';
+window.addEventListener('load',() => {
+    alert('Page Loaded You Can Now Start By Reading and Following  Instructions');
+    document.getElementById('startBtn').addEventListener('click',() => {
+        animating();
+        shooterPosition();    
+        document.getElementById('welcoming').style.display = 'none';
+        document.querySelector('canvas').style.display = 'block';
+    })
 })
 
 document.addEventListener('touchstart', () => {
