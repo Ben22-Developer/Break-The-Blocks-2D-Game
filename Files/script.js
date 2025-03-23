@@ -10,10 +10,12 @@ const notTooDarkColor = 'rgb(26, 89, 144)';
 canvas.width = screenWidth;
 canvas.height = screenHeight;
 
+let groundHeight = 25;
+
 //the sliding ground
 function slidingGround() {
     ctx.fillStyle = veryDarkColor;
-    ctx.fillRect(0,(screenHeight - 25),630,25);
+    ctx.fillRect(0,(screenHeight - 25),630,groundHeight);
 }
 
 
@@ -21,9 +23,9 @@ function slidingGround() {
 class Shooter {
     constructor () {
         this.x = (screenWidth/2) - 45;
-        this.y = (screenHeight - 40);
-        this.width = 120;
-        this.height = 15;
+        this.y = (screenHeight - 35);
+        this.width = 90;
+        this.height = 10;
         this.speed = 0;
         this.color = notTooDarkColor;
     }
@@ -58,7 +60,7 @@ class Ball {
         this.y = screenHeight/2;
         this.dx = 0;
         this.dy = 5;
-        this.size = 23;
+        this.size = 15;
         this.color = veryDarkColor;
         this.gamePlaying = true;
         this.isGoingUp;
@@ -70,7 +72,7 @@ class Ball {
         this.x += this.dx;
         this.y += this.dy;
         this.isGoingUp = this.dy < 0 ? true : false;
-        if (this.y + this.size >= screenHeight - 10) {
+        if (this.y + this.size >= screenHeight - (groundHeight + shooter.height - (this.size * 1.5))) {
             if (this.gamePlaying) {
                 gameFail();
             }
@@ -94,11 +96,11 @@ class Ball {
                 const randomXPosition = [-1,-2,-3,-4,0,1,2,3,4];
                 //this.dx = randomXPosition[Math.floor(Math.random() * randomXPosition.length)];
                 const xAxisDifference = this.x - shooter.x;
-                console.log(xAxisDifference);
-                if (xAxisDifference <= 43) {
+                //console.log(xAxisDifference);
+                if (xAxisDifference <= 35) {
                     this.dx  = randomXPosition[Math.floor(Math.random() * 4)];
                 }
-                else if (xAxisDifference < 50) {
+                else if (xAxisDifference <= 45) {
                     this.dx = randomXPosition[4];
                 }
                 else {
@@ -175,7 +177,7 @@ function detectBlockBallCollision () {
     let hitten;
 
     for (j = 0; j < allBlocks; j++) {
-        if ((((ball.y - ball.size - blocks[j].height - blocks[j].y) <= 0 && (ball.isGoingUp)) || ((!ball.isGoingUp) && ((ball.y + ball.size) - blocks[j].y <= 0 && (ball.y + ball.size) - blocks[j].y > -15))) && (blocks[j].x <= ball.x && (blocks[j].x + blocks[j].width >= ball.x))) {
+        if ((((ball.y - ball.size - blocks[j].height - blocks[j].y) <= 0 && (ball.isGoingUp)) || ((!ball.isGoingUp) && ((ball.y + ball.size) - blocks[j].y <= 0 && (ball.y + ball.size) - blocks[j].y > -15))) && ((blocks[j].x <= ball.x || blocks[j].x <= ball.x - ball.size) && (blocks[j].width + blocks[j].x >= ball.x || blocks[j].width + blocks[j].x >= ball.x - (ball.size*2))           || (blocks[j].x >= ball.x || blocks[j].x >= ball.x + ball.size) && (blocks[j].x - (blocks[j].width - (blocks[j].width * (70/100))) <= ball.x || blocks[j].x - (blocks[j].width - (blocks[j].width * (70/100))) <= ball.x - (ball.size*2))   )) {
             ball.dy *= -1;
             hitten = true;
             audios[0].play();
@@ -191,13 +193,10 @@ function detectBlockBallCollision () {
             gameWin();
         }
     }
-
     for (j = 0; j < blocks.length; j++) {
         blocks[j].draw();
     }
 }
-
-
 
 //animation
 function animating () {
@@ -267,14 +266,21 @@ document.addEventListener('keyup',() => {
     shooter.speed = 0;
 })
 
-window.addEventListener('load',() => {
-    document.getElementById('startBtn').addEventListener('click',() => {
-        animating();
-        shooterPosition();    
-        document.getElementById('welcoming').style.display = 'none';
-        document.querySelector('canvas').style.display = 'block';
-    })
-})
+
+    animating();
+    shooterPosition();    
+    document.getElementById('welcoming').style.display = 'none';
+    document.querySelector('canvas').style.display = 'block';
+
+
+// window.addEventListener('load',() => {
+//     document.getElementById('startBtn').addEventListener('click',() => {
+//         animating();
+//         shooterPosition();    
+//         document.getElementById('welcoming').style.display = 'none';
+//         document.querySelector('canvas').style.display = 'block';
+//     })
+// })
 
 document.addEventListener('touchstart', () => {
     alert("Break The Walls is currently designed to be enjoyed on a computer, so make sure to grab your keyboard to join the fun!\nWe're still improving the mobile/tablet Version");
